@@ -1,3 +1,4 @@
+
 body {
     min-height: 100vh;
     display: flex;
@@ -33,4 +34,41 @@ body {
 }
 #darkButton:hover{
     background-color: #005bb5;
+}
+.member-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.member-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.pagination-container {
+    position: relative;
+    margin-top: 20px;
+    margin-bottom: 60px; /* Space above the footer */
+    text-align: justify;
+}
+
+.pagination {
+    display: inline-flex;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.pagination .page-item .page-link {
+    margin: 0 5px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    color: #007bff;
+    border: 1px solid #007bff;
+    text-decoration: none;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
 }
