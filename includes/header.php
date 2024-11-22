@@ -11,6 +11,7 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container">
+        <img class="logo" src="logo.png" style="width: 50px; height: auto; border-radius: 50%; border: 5px solid #087cfc;">
         <a class="navbar-brand" href="index.php">Women in FinTech</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" datatarget="#navbarNav">
             <span class="navbar-toggler-icon"></span>
@@ -25,6 +26,7 @@
                 </li>
             </ul>
         </div>
+        <input onclick ="darkMode()" id="darkButton" class="btn btn-primary" type="button" value="Toggle Dark Mode">
     </div>
 </nav>
 <div class="container mt-4">

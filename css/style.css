@@ -18,3 +18,19 @@ body {
 .card-body{
     background-color: #087cfc;
 }
+.logo{
+    border-radius: 50%;
+}
+#darkButton{
+    float: right;
+    background-color: #087cfc;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+#darkButton:hover{
+    background-color: #005bb5;
+}

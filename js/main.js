@@ -24,3 +24,4 @@ function validateEmail(email) {
 function validateLinkedIn(url) {
     return url.includes('linkedin.com/');
 }
+
