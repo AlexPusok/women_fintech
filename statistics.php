@@ -2,28 +2,37 @@
 global $totalMembersQuery;
 include_once "config/database.php";
 include_once "includes/header.php";
+
 $database = new Database();
 $db = $database->getConnection();
-$totalMembersQuery = "SELECT count(*) FROM members";
-$professionDistributionQuery = "SELECT profession, COUNT(*) as total_members FROM members GROUP BY profession ORDER BY total_members DESC";
-$totalMembersCount = $db->query($totalMembersQuery)->fetchColumn();
-$monthlyMembersQuery = "SELECT count(*) as monthly_members FROM members WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)";
-$monthlyMembersCount = $db->query($monthlyMembersQuery)->fetchColumn();
 
+$totalMembersQuery = "SELECT COUNT(*) FROM members";
+$professionDistributionQuery = "SELECT profession, COUNT(*) as total_members FROM members GROUP BY profession ORDER BY total_members DESC";
+$monthlyMembersQuery = "SELECT COUNT(*) as monthly_members FROM members WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)";
 $companyDistributionQuery = "SELECT company, COUNT(*) as total_members FROM members GROUP BY company ORDER BY total_members DESC";
+
+$totalMembersCount = $db->query($totalMembersQuery)->fetchColumn();
+$monthlyMembersCount = $db->query($monthlyMembersQuery)->fetchColumn();
 ?>
-<h2>Statistics</h2>
-    <ul>
-        <li>
-            Total number of members: <?php echo htmlspecialchars($totalMembersCount); ?>
+<div class="statistics-container">
+    <h2 class="statistics-title">Statistics</h2>
+    <ul class="statistics-list">
+        <li class="statistics-item">
+            <strong>Total number of members:</strong> <?php echo htmlspecialchars($totalMembersCount); ?>
         </li>
-        <li>
-            Profession Distribution:
-            <table border="1">
+        <li class="statistics-item">
+            <strong>New members in the last month:</strong> <?php echo htmlspecialchars($monthlyMembersCount); ?>
+        </li>
+        <li class="statistics-item">
+            <strong>Profession Distribution:</strong>
+            <table class="statistics-table">
+                <thead>
                 <tr>
                     <th>Profession</th>
                     <th>Total Members</th>
                 </tr>
+                </thead>
+                <tbody>
                 <?php
                 $stmt = $db->query($professionDistributionQuery);
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -33,17 +42,19 @@ $companyDistributionQuery = "SELECT company, COUNT(*) as total_members FROM memb
                     echo "</tr>";
                 }
                 ?>
+                </tbody>
             </table>
         </li>
-        <li>
-            Membri noi in ultima luna: <?php echo htmlspecialchars($monthlyMembersCount); ?>
-        </li>
-        <li>
-            <table border="1">
+        <li class="statistics-item">
+            <strong>Company Distribution:</strong>
+            <table class="statistics-table">
+                <thead>
                 <tr>
                     <th>Company</th>
                     <th>Total Members</th>
                 </tr>
+                </thead>
+                <tbody>
                 <?php
                 $stmt = $db->query($companyDistributionQuery);
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -53,9 +64,11 @@ $companyDistributionQuery = "SELECT company, COUNT(*) as total_members FROM memb
                     echo "</tr>";
                 }
                 ?>
+                </tbody>
             </table>
         </li>
     </ul>
+</div>
 <?php
 include_once "includes/footer.php";
 ?>
