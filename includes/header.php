@@ -30,6 +30,7 @@
             </ul>
         </div>
         <input onclick ="darkMode()" id="darkButton" class="btn btn-primary" type="button" value="Toggle Dark Mode">
+        <img class="pfp" src="resources/default_profile_pic.jpg" style="width: 50px; height: auto; border-radius: 50%; border: 5px solid #087cfc;">
     </div>
 </nav>
 <div class="container mt-4">

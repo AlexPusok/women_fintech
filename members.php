@@ -9,9 +9,20 @@ $page = max($page, 1);
 $members_per_page = 9;
 
 $offset = ($page - 1) * $members_per_page;
-
-
+?>
+    <h2>Members Directory</h2>
+    <form method="post">
+        <button type="submit" name="sortnume">Sort dupa nume</button>
+        <button type="submit" name="sortcreare">Sort dupa data inscrierii</button>
+    </form>
+    <br/>
+<?php
 $query = "SELECT * FROM members ORDER BY created_at DESC LIMIT :limit OFFSET :offset";
+if (isset($_POST['sortnume'])) {
+    $query = "SELECT * FROM members ORDER BY last_name, first_name LIMIT :limit OFFSET :offset";
+}else if(isset($_POST['sortcreare'])) {
+    $query = "SELECT * FROM members ORDER BY created_at LIMIT :limit OFFSET :offset";
+}
 $stmt = $db->prepare($query);
 $stmt->bindValue(':limit', $members_per_page, PDO::PARAM_INT);
 $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
@@ -25,7 +36,6 @@ $total_members = $total_rows['total'];
 
 $total_pages = ceil($total_members / $members_per_page);
 ?>
-    <h2>Members Directory</h2>
     <div class="row">
         <?php while ($row = $stmt->fetch(PDO::FETCH_ASSOC)): ?>
             <div class="col-md-4">
