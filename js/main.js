@@ -25,3 +25,22 @@ function validateLinkedIn(url) {
     return url.includes('linkedin.com/');
 }
 
+function schimbaModSortare() {
+    var btn = document.getElementById("sortbutton");
+    var sortInput = document.getElementById("sortInput");
+    var professionInput = document.getElementById("hiddenProfessionInput")
+    if(btn.innerHTML === "Sort dupa nume"){
+        btn.innerHTML="Sort dupa creare";
+        sortInput.value = "sortcreare";
+    }else {
+        btn.innerHTML="Sort dupa nume";
+        sortInput.value = "sortnume";
+    }
+
+    document.getElementById("sortForm").submit();
+}
+
+function toggleFilterSection() {
+    var section = document.getElementById('filterSection');
+    section.style.display = (section.style.display === 'none' || section.style.display === '') ? 'block' : 'none';
+}
