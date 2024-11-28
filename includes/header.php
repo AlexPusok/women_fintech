@@ -8,7 +8,7 @@
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body class="bg-light">
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container">
         <img class="logo" src="logo.png" style="width: 50px; height: auto; border-radius: 50%; border: 5px solid #087cfc;">

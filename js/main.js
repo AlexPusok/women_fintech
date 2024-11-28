@@ -44,3 +44,14 @@ function toggleFilterSection() {
     var section = document.getElementById('filterSection');
     section.style.display = (section.style.display === 'none' || section.style.display === '') ? 'block' : 'none';
 }
+
+function darkMode(){
+    if (document.body.className === "bg-light") { /*dark mode settings*/
+        document.body.className = "bg-dark"
+        document.getElementById("fter").className ="footer mt-auto py-3 bg-dark"
+    }
+    else{ /*light mode settings*/
+        document.body.className = "bg-light"
+        document.getElementById("fter").className ="footer mt-auto py-3 bg-light"
+    }
+}

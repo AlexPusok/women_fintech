@@ -14,7 +14,7 @@ $companyDistributionQuery = "SELECT company, COUNT(*) as total_members FROM memb
 $totalMembersCount = $db->query($totalMembersQuery)->fetchColumn();
 $monthlyMembersCount = $db->query($monthlyMembersQuery)->fetchColumn();
 ?>
-<div class="statistics-container">
+<div class="statistics-container" id="stats-cont">
     <h2 class="statistics-title">Statistics</h2>
     <ul class="statistics-list">
         <li class="statistics-item">
