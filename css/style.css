@@ -22,6 +22,9 @@ body {
 .logo{
     border-radius: 50%;
 }
+#notificationBell:hover{
+    background-color: #005bb5;
+}
 #darkButton{
     float: right;
     background-color: #087cfc;

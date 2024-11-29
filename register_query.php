@@ -16,6 +16,14 @@ if(ISSET($_POST['register'])){
                 $_POST['email'],
                 $_POST['password']
             ]);
+
+            $memberID = $db->lastInsertId();
+
+            $notificationQuery = "INSERT INTO notifications (member_id, message) VALUES (?, ?)";
+            $notificationStmt = $db->prepare($notificationQuery);
+
+            $message = "Welcome to Women in FinTech, " . $_POST['first_name'] . "! Your account has been created successfully.";
+            $notificationStmt->execute([$memberID, $message]);
         }catch(PDOException $e){
             echo $e->getMessage();
         }

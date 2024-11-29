@@ -3,6 +3,7 @@ require 'config/database.php';
 session_start();
 $database = new Database();
 $db = $database->getConnection();
+$notifications = [];
 if(isset($_SESSION['user'])){
     $userId = $_SESSION['user']['id']; // Assuming 'id' is stored in session
     $query = "SELECT pfp FROM members WHERE id = :id";
@@ -10,11 +11,18 @@ if(isset($_SESSION['user'])){
     $stmt->bindParam(':id', $userId, PDO::PARAM_INT);
     $stmt->execute();
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
-}
-
-
 
 $profilePic = $user['pfp'] ?? 'resources/default_profile_pic.jpg';
+
+    $notificationsQuery = "SELECT id, message, read_status, created_at FROM notifications WHERE member_id = :member_id AND read_status = 0 ORDER BY created_at DESC LIMIT 10";
+
+    $notificationsStmt = $db->prepare($notificationsQuery);
+    $notificationsStmt->bindParam(':member_id', $userId, PDO::PARAM_INT);
+    $notificationsStmt->execute();
+    $notifications = $notificationsStmt->fetchAll(PDO::FETCH_ASSOC);
+} else {
+    $profilePic = 'resources/default_profile_pic.jpg';
+}
 ?>
 <!DOCTYPE html>
 <html lang="ro">
@@ -56,6 +64,26 @@ $profilePic = $user['pfp'] ?? 'resources/default_profile_pic.jpg';
             </ul>
         </div>
         <input onclick="darkMode()" id="darkButton" class="btn btn-primary" type="button" value="Toggle Dark Mode">
+        <div class="dropdown">
+            <img class="pfp dropdown-toggle" id="notificationBell" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                 src="resources/bell.png" style="width: 50px; height: 50px; border-radius: 50%; border: 5px solid #087cfc; cursor: pointer;">
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="notificationBell">
+                <h6 class="dropdown-header">Notifications</h6>
+                <?php if (!empty($notifications)): ?>
+                    <?php foreach ($notifications as $notification): ?>
+                        <a
+                                class="dropdown-item <?php echo $notification['read_status'] ? 'text-muted' : ''; ?>"
+                                href="mark_notification_read.php?id=<?php echo $notification['id']; ?>">
+                            <?php echo htmlspecialchars($notification['message']); ?>
+                            <small class="text-secondary d-block"><?php echo date('d M Y, H:i', strtotime($notification['created_at'])); ?></small>
+                        </a>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <span class="dropdown-item text-muted">No notifications</span>
+                <?php endif; ?>
+                <div class="dropdown-divider"></div>
+            </div>
+        </div>
         <?php if (isset($_SESSION['user'])): ?>
         <a href="edit_profile.php" style="padding-right: 3px">
             <img class="pfp" src="<?php echo htmlspecialchars($profilePic); ?>" style="width: 50px; height: 50px; border-radius: 50%; border: 5px solid #087cfc;">
