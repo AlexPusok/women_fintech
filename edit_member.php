@@ -1,12 +1,11 @@
 <?php
-include_once "config/database.php";
 include_once "includes/header.php";
 $database = new Database();
 $db = $database->getConnection();
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $query = "UPDATE members
  SET first_name=?, last_name=?, email=?, profession=?,
- company=?, expertise=?, linkedin_profile=?
+ company=?, expertise=?, linkedin_profile=?, status=?, password=?
  WHERE id=?";
 
     $stmt = $db->prepare($query);
@@ -18,6 +17,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_POST['company'],
         $_POST['expertise'],
         $_POST['linkedin_profile'],
+        $_POST['status'],
+        $_POST['password'],
         $_GET['id']
     ]);
 
@@ -66,6 +67,20 @@ $member = $stmt->fetch(PDO::FETCH_ASSOC);
         <div class="form-group">
             <label>LinkedIn Profile</label>
             <input type="url" name="linkedin_profile" class="form-control" value="<?php echo htmlspecialchars($member['linkedin_profile']); ?>">
+        </div>
+
+        <div class="form-group">
+            <label for="status">Status</label>
+            <select name="status" class="form-control">
+                <option value="admin">Admin</option>
+                <option value="mentor">Mentor</option>
+                <option value="member">Member</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" name="password" class="form-control">
         </div>
 
         <button type="submit" class="btn btn-primary">Update Member</button>

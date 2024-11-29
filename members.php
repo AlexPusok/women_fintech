@@ -1,5 +1,4 @@
 <?php
-include_once "config/database.php";
 include_once "includes/header.php";
 $database = new Database();
 $db = $database->getConnection();
@@ -11,11 +10,21 @@ $members_per_page = 9;
 $offset = ($page - 1) * $members_per_page;
 
 $selectedProfession = isset($_POST['profession']) ? $_POST['profession'] : '';
+$searchQuery = isset($_POST['searchQuery']) ? $_POST['searchQuery'] : '';
 ?>
     <h2>Members Directory</h2>
+    <form method="post" action="">
+        <div class="form-group">
+            <label for="searchQuery">Cauta membri:</label>
+            <input type="text" name="searchQuery" id="searchQuery" class="form-control" value="<?php echo htmlspecialchars($searchQuery); ?>">
+        </div>
+        <button type="submit" class="btn btn-success">Cauta</button>
+    </form>
+    <br/>
     <form id="sortForm" method="post">
         <input type="hidden" id="sortInput" name="sortMode" value="<?php echo isset($_POST['sortMode']) ? $_POST['sortMode'] : 'sortnume'; ?>">
         <input type="hidden" id="hiddenProfessionInput" name="profession" value="<?php echo htmlspecialchars($selectedProfession); ?>">
+        <input type="hidden" id="hiddenSearchQuery" name="searchQuery" value="<?php echo htmlspecialchars($searchQuery); ?>">
         <button type="submit" id="sortbutton" onclick="schimbaModSortare()"><?php echo isset($_POST['sortMode']) && $_POST['sortMode'] === 'sortcreare' ? 'Sort dupa creare' : 'Sort dupa nume'; ?></button>
     </form>
     <br/>
@@ -42,12 +51,18 @@ $selectedProfession = isset($_POST['profession']) ? $_POST['profession'] : '';
         </form>
     </div>
     <br/>
+
 <?php
-$query = "SELECT * FROM members";
+$query = "SELECT * FROM members WHERE NOT (first_name = 'admin' AND last_name = 'admin')";
 $params = [];
 if (!empty($selectedProfession)) {
-    $query .= " WHERE profession = :profession";
+    $query .= " AND profession = :profession";
     $params[":profession"] = $selectedProfession;
+}
+if (!empty($searchQuery)) {
+
+    $query .= " AND (first_name LIKE :search OR last_name LIKE :search OR profession LIKE :search)";
+    $params[":search"] = "%" . $searchQuery . "%";
 }
 if (isset($_POST['sortMode']) && $_POST['sortMode'] === 'sortcreare') {
     $query .= " ORDER BY last_name, first_name";
@@ -66,12 +81,23 @@ $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
 $stmt->execute();
 
 $total_querry = 'SELECT COUNT(*) as total FROM members';
-if(!empty($selectedProfession)) {
-    $total_querry .= " WHERE profession = :profession";
+if(!empty($selectedProfession) || !empty($searchQuery)) {
+    $total_querry .= " WHERE";
+    $conditions = [];
+    if(!empty($selectedProfession)) {
+        $conditions[] = "profession = :profession";
+    }
+    if(!empty($searchQuery)) {
+        $conditions[] = "(first_name LIKE :search OR last_name LIKE :search OR profession LIKE :search) ";
+    }
+    $total_querry .=" ". implode(" AND ", $conditions);
 }
 $total_stmt = $db->prepare($total_querry);
 if(!empty($selectedProfession)) {
-    $total_stmt->bindValue(':profession', $selectedProfession);
+    $total_stmt->bindValue(":profession", $selectedProfession);
+}
+if(!empty($searchQuery)) {
+    $total_stmt->bindValue(":search", "%".$searchQuery."%");
 }
 $total_stmt->execute();
 $total_rows = $total_stmt->fetch(PDO::FETCH_ASSOC);
@@ -80,22 +106,27 @@ $total_members = $total_rows['total'];
 $total_pages = ceil($total_members / $members_per_page);
 ?>
     <div class="row">
-        <?php while ($row = $stmt->fetch(PDO::FETCH_ASSOC)): ?>
-            <div class="col-md-4">
-                <div class="card member-card">
-                    <div class="card-body">
-                        <h5 class="card-title"><?php echo htmlspecialchars($row['first_name'] . ' ' . $row['last_name']); ?></h5>
-                        <p class="card-text">
-                            <strong>Profession:</strong> <?php echo htmlspecialchars($row['profession']); ?><br>
-                            <strong>Company:</strong> <?php echo htmlspecialchars($row['company']);
-                            ?>
-                        </p>
-                        <a href="edit_member.php?id=<?php echo $row['id']; ?>" class="btn btnprimary">Edit</a>
-                        <a href="delete_member.php?id=<?php echo $row['id']; ?>" class="btn btndanger" onclick="return confirm('Are you sure?')">Delete</a>
+        <?php if ($stmt->rowCount() > 0): ?>
+            <?php while ($row = $stmt->fetch(PDO::FETCH_ASSOC)): ?>
+                <div class="col-md-4">
+                    <div class="card member-card">
+                        <div class="card-body">
+                            <h5 class="card-title"><?php echo htmlspecialchars($row['first_name'] . ' ' . $row['last_name']); ?></h5>
+                            <p class="card-text">
+                                <strong>Profession:</strong> <?php echo htmlspecialchars($row['profession']); ?><br>
+                                <strong>Company:</strong> <?php echo htmlspecialchars($row['company']); ?>
+                            </p>
+                            <a href="edit_member.php?id=<?php echo $row['id']; ?>" class="btn btnprimary">Edit</a>
+                            <a href="delete_member.php?id=<?php echo $row['id']; ?>" class="btn btndanger" onclick="return confirm('Are you sure?')">Delete</a>
+                        </div>
                     </div>
                 </div>
+            <?php endwhile; ?>
+        <?php else: ?>
+            <div class="col-12">
+                <p class="text-center">No data found matching your criteria.</p>
             </div>
-        <?php endwhile; ?>
+        <?php endif; ?>
     </div>
 
 <!-- Paginare -->

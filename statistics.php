@@ -1,15 +1,14 @@
 <?php
 global $totalMembersQuery;
-include_once "config/database.php";
 include_once "includes/header.php";
 
 $database = new Database();
 $db = $database->getConnection();
 
-$totalMembersQuery = "SELECT COUNT(*) FROM members";
-$professionDistributionQuery = "SELECT profession, COUNT(*) as total_members FROM members GROUP BY profession ORDER BY total_members DESC";
-$monthlyMembersQuery = "SELECT COUNT(*) as monthly_members FROM members WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)";
-$companyDistributionQuery = "SELECT company, COUNT(*) as total_members FROM members GROUP BY company ORDER BY total_members DESC";
+$totalMembersQuery = "SELECT COUNT(*) FROM members WHERE NOT (first_name = 'admin' AND last_name = 'admin')";
+$professionDistributionQuery = "SELECT profession, COUNT(*) as total_members FROM members WHERE NOT (first_name = 'admin' AND last_name = 'admin') GROUP BY profession ORDER BY total_members DESC";
+$monthlyMembersQuery = "SELECT COUNT(*) as monthly_members FROM members WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH) AND NOT (first_name = 'admin' AND last_name = 'admin')";
+$companyDistributionQuery = "SELECT company, COUNT(*) as total_members FROM members WHERE NOT (first_name = 'admin' AND last_name = 'admin') GROUP BY company ORDER BY total_members DESC";
 
 $totalMembersCount = $db->query($totalMembersQuery)->fetchColumn();
 $monthlyMembersCount = $db->query($monthlyMembersQuery)->fetchColumn();

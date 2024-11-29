@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 27, 2024 at 11:19 PM
+-- Generation Time: Nov 29, 2024 at 03:18 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `women_fintech`
 --
-CREATE DATABASE IF NOT EXISTS `women_fintech` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `women_fintech`;
 
 -- --------------------------------------------------------
 
@@ -66,30 +64,34 @@ CREATE TABLE `members` (
   `first_name` varchar(50) NOT NULL,
   `last_name` varchar(50) NOT NULL,
   `email` varchar(100) NOT NULL,
-  `profession` varchar(100) DEFAULT NULL,
-  `company` varchar(100) DEFAULT NULL,
+  `profession` varchar(100) DEFAULT '-',
+  `company` varchar(100) DEFAULT '-',
   `expertise` text DEFAULT NULL,
   `linkedin_profile` varchar(255) DEFAULT NULL,
   `pfp` varchar(500) NOT NULL DEFAULT 'resources/default_profile_pic.jpg',
-  `status` enum('active','pending','mentor') DEFAULT 'pending',
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `status` enum('admin','member','mentor') DEFAULT 'member',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `password` varchar(200) NOT NULL DEFAULT 'parola'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `members`
 --
 
-INSERT INTO `members` (`id`, `first_name`, `last_name`, `email`, `profession`, `company`, `expertise`, `linkedin_profile`, `pfp`, `status`, `created_at`) VALUES
-(2, 'Ana', 'Pop', 'ana@pop.ro', 'Scriitor', 'x', 'dada', 'https://www.linkedin.com/in/ana_pop', 'resources/default_profile_pic.jpg', 'pending', '2024-11-25 22:20:14'),
-(3, 'Maria', 'Popescu', 'mariapopescu@yahoo.com', 'Contabil', 'a', 'dasd', 'https://www.linkedin.com/in/maria_popescu', 'resources/default_profile_pic.jpg', 'pending', '2024-11-26 10:07:13'),
-(4, 'Mara', 'Banc', 'marabanc@gmail.com', 'Contabil', 'ad', 'kvcxv', 'https://www.linkedin.com/in/mara_banc', 'resources/default_profile_pic.jpg', 'pending', '2024-11-26 10:09:06'),
-(5, 'Oana', 'Cenan', 'cenanoana@yahoo.com', 'Secretar', 'rkpfg', 'gpkdpskf', 'https://www.linkedin.com/in/oana_cenan', 'resources/default_profile_pic.jpg', 'pending', '2024-11-26 10:09:53'),
-(6, 'Roxana', 'Toma', 'roxanatoma@gmail.com', 'Programator', 'faed', 'fdsvasd', 'https://www.linkedin.com/in/roxana_toma', 'resources/default_profile_pic.jpg', 'pending', '2024-11-26 10:12:18'),
-(7, 'Sara', 'Daniel', 'saradaniel@yahoo.com', 'Director', 'faelsk', 'fkldskl', 'https://www.linkedin.com/in/sara_daniel', 'resources/default_profile_pic.jpg', 'pending', '2024-11-26 10:13:03'),
-(8, 'Flavia', 'Antonescu', 'flaviaantonescu@yahoo.com', 'HR', 'fldak', 'lfkdalk', 'https://www.linkedin.com/in/flavia_antonescu', 'resources/default_profile_pic.jpg', 'pending', '2024-11-26 10:16:04'),
-(9, 'Mihaela', 'Deac', 'mihaeladeac@gmail.com', 'Developer', 'fae', 'fasf', 'https://www.linkedin.com/in/mihaela_deac', 'resources/default_profile_pic.jpg', 'pending', '2024-11-27 22:10:17'),
-(10, 'Denisa', 'Andreica', 'denisaandreica@gmail.com', 'HR', 'fsd', 'sfvdsf', 'https://www.linkedin.com/in/denisa_andreica', 'resources/default_profile_pic.jpg', 'pending', '2024-11-27 22:11:18'),
-(11, 'Andreea', 'Plosca', 'andreeaplosca@gmail.com', 'Contabil', 'gdsg', 'eafas', 'https://www.linkedin.com/in/andreea_plosca', 'resources/default_profile_pic.jpg', 'pending', '2024-11-27 22:12:10');
+INSERT INTO `members` (`id`, `first_name`, `last_name`, `email`, `profession`, `company`, `expertise`, `linkedin_profile`, `pfp`, `status`, `created_at`, `password`) VALUES
+(1, 'admin', 'admin', 'admin@admin.com', '-', '-', '', '', 'resources/pfp_674917b8aee725.33131065.jpg', 'admin', '2024-11-28 22:04:01', 'parola'),
+(2, 'Ana', 'Pop', 'ana@pop.ro', 'Scriitor', 'x', 'dada', 'https://www.linkedin.com/in/ana_pop', 'resources/default_profile_pic.jpg', 'member', '2024-11-25 22:20:14', 'parola'),
+(3, 'Maria', 'Popescu', 'mariapopescu@yahoo.com', 'Contabil', 'a', 'dasd', 'https://www.linkedin.com/in/maria_popescu', 'resources/default_profile_pic.jpg', 'member', '2024-11-26 10:07:13', 'parola'),
+(4, 'Mara', 'Banc', 'marabanc@gmail.com', 'Contabil', 'ad', 'kvcxv', 'https://www.linkedin.com/in/mara_banc', 'resources/default_profile_pic.jpg', 'mentor', '2024-11-26 10:09:06', 'parola'),
+(5, 'Oana', 'Cenan', 'cenanoana@yahoo.com', 'Secretar', 'rkpfg', 'gpkdpskf', 'https://www.linkedin.com/in/oana_cenan', 'resources/default_profile_pic.jpg', 'mentor', '2024-11-26 10:09:53', 'parola'),
+(6, 'Roxana', 'Toma', 'roxanatoma@gmail.com', 'Programator', 'faed', 'fdsvasd', 'https://www.linkedin.com/in/roxana_toma', 'resources/default_profile_pic.jpg', 'member', '2024-11-26 10:12:18', 'parola'),
+(7, 'Sara', 'Daniel', 'saradaniel@yahoo.com', 'Director', 'faelsk', 'fkldskl', 'https://www.linkedin.com/in/sara_daniel', 'resources/default_profile_pic.jpg', 'member', '2024-11-26 10:13:03', 'parola'),
+(8, 'Flavia', 'Antonescu', 'flaviaantonescu@yahoo.com', 'HR', 'fldak', 'lfkdalk', 'https://www.linkedin.com/in/flavia_antonescu', 'resources/default_profile_pic.jpg', 'member', '2024-11-26 10:16:04', 'parola'),
+(9, 'Mihaela', 'Deac', 'mihaeladeac@gmail.com', 'Developer', 'fae', 'fasf', 'https://www.linkedin.com/in/mihaela_deac', 'resources/default_profile_pic.jpg', 'member', '2024-11-27 22:10:17', 'parola'),
+(10, 'Denisa', 'Andreica', 'denisaandreica@gmail.com', 'HR', 'fsd', 'sfvdsf', 'https://www.linkedin.com/in/denisa_andreica', 'resources/default_profile_pic.jpg', 'member', '2024-11-27 22:11:18', 'parola'),
+(11, 'Andreea', 'Plosca', 'andreeaplosca@gmail.com', 'Contabil', 'gdsg', 'eafas', 'https://www.linkedin.com/in/andreea_plosca', 'resources/default_profile_pic.jpg', 'member', '2024-11-27 22:12:10', 'parola'),
+(12, 'Larisa', 'Bota', 'larisabota@gmail.com', 'Developer', 'kad', 'fljdsjflvcx', 'https://www.linkedin.com/in/larisa_bota', 'resources/default_profile_pic.jpg', 'member', '2024-11-28 23:09:59', 'parola'),
+(13, 'Ramona', 'Zaha', 'ramonazaha@yahoo.com', 'Director', 'fgeakd', 'flkdlfkdsq', 'https://www.linkedin.com/in/ramona_zaha', 'resources/pfp_674918c5b59218.60502720.jpg', 'member', '2024-11-28 23:13:16', 'parola');
 
 --
 -- Indexes for dumped tables
@@ -137,7 +139,7 @@ ALTER TABLE `event_registrations`
 -- AUTO_INCREMENT for table `members`
 --
 ALTER TABLE `members`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Constraints for dumped tables
