@@ -58,7 +58,13 @@ $profilePic = $user['pfp'] ?? 'resources/default_profile_pic.jpg';
                         <li class="nav-item">
                             <a class="nav-link" href="add_member.php">Add Member</a>
                         </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="create_event.php">Create Event</a>
+                    </li>
                     <?php endif; ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="events.php">Events</a>
+                    </li>
 
                 <?php endif; ?>
             </ul>
@@ -71,12 +77,16 @@ $profilePic = $user['pfp'] ?? 'resources/default_profile_pic.jpg';
                 <h6 class="dropdown-header">Notifications</h6>
                 <?php if (!empty($notifications)): ?>
                     <?php foreach ($notifications as $notification): ?>
-                        <a
-                                class="dropdown-item <?php echo $notification['read_status'] ? 'text-muted' : ''; ?>"
-                                href="mark_notification_read.php?id=<?php echo $notification['id']; ?>">
-                            <?php echo htmlspecialchars($notification['message']); ?>
-                            <small class="text-secondary d-block"><?php echo date('d M Y, H:i', strtotime($notification['created_at'])); ?></small>
-                        </a>
+                        <div class="dropdown-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong><?php echo htmlspecialchars($notification['message']); ?></strong>
+                                <small class="text-secondary d-block"><?php echo date('d M Y, H:i', strtotime($notification['created_at'])); ?></small>
+                            </div>
+                            <form method="POST" action="mark_notification_read.php" style="margin: 0;">
+                                <input type="hidden" name="id" value="<?php echo $notification['id']; ?>">
+                                <button type="submit" class="btn btn-sm btn-primary">Mark as Read</button>
+                            </form>
+                        </div>
                     <?php endforeach; ?>
                 <?php else: ?>
                     <span class="dropdown-item text-muted">No notifications</span>

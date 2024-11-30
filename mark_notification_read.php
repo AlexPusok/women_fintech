@@ -2,8 +2,8 @@
 require 'config/database.php';
 session_start();
 
-if (isset($_SESSION['user']) && isset($_GET['id'])) {
-    $notificationId = intval($_GET['id']);
+if (isset($_SESSION['user']) && isset($_POST['id'])) {
+    $notificationId = intval($_POST['id']);
     $userId = $_SESSION['user']['id']; // Ensure the notification belongs to the logged-in user
 
     $database = new Database();
@@ -15,14 +15,14 @@ if (isset($_SESSION['user']) && isset($_GET['id'])) {
     $stmt->bindParam(':member_id', $userId, PDO::PARAM_INT);
 
     if ($stmt->execute()) {
-        // Success - redirect back to the original page
+        // Redirect back to the previous page or refresh
         header('Location: ' . $_SERVER['HTTP_REFERER']);
+        exit;
     } else {
-        // Error - handle as needed
-        echo "Error marking notification as read.";
+        echo "Failed to mark the notification as read.";
     }
 } else {
-    // If unauthorized or no ID provided, redirect to home
+    // Redirect to home if unauthorized access
     header('Location: index.php');
     exit;
 }

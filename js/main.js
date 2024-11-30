@@ -61,7 +61,9 @@ function darkMode() {
 function previewProfilePicture(event) {
     const reader = new FileReader();
     reader.onload = function () {
-    document.getElementById('profilePicPreview').src = reader.result;
-};
+        document.getElementById('profilePicPreview').src = reader.result;
+    };
     reader.readAsDataURL(event.target.files[0]);
 }
+
+
