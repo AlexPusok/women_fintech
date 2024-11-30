@@ -112,6 +112,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['user'])) {
         }
     }
 }
+// Handle unregistration for upcoming events
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'unregister' && isset($_SESSION['user'])) {
+    $memberId = $_SESSION['user']['id'];
+
+    // Check if the user is registered for the event
+    $check_registration_query = "SELECT 1 FROM event_registrations WHERE event_id = :event_id AND member_id = :member_id LIMIT 1";
+    $stmt_check_registration = $db->prepare($check_registration_query);
+    $stmt_check_registration->bindParam(':event_id', $eventId, PDO::PARAM_INT);
+    $stmt_check_registration->bindParam(':member_id', $memberId, PDO::PARAM_INT);
+    $stmt_check_registration->execute();
+
+    if ($stmt_check_registration->rowCount() > 0) {
+        // Delete the registration
+        $query_unregister = "DELETE FROM event_registrations WHERE event_id = :event_id AND member_id = :member_id";
+        $stmt_unregister = $db->prepare($query_unregister);
+        $stmt_unregister->bindParam(':event_id', $eventId, PDO::PARAM_INT);
+        $stmt_unregister->bindParam(':member_id', $memberId, PDO::PARAM_INT);
+
+        if ($stmt_unregister->execute()) {
+            $message = "<div class='alert alert-success'>You have successfully unregistered from the event.</div>";
+        } else {
+            $message = "<div class='alert alert-danger'>There was an issue with your unregistration. Please try again later.</div>";
+        }
+    } else {
+        $message = "<div class='alert alert-warning'>You are not registered for this event.</div>";
+    }
+}
+
 
 ?>
 
@@ -180,16 +208,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['user'])) {
             <!-- Registration Form for Upcoming Events -->
             <?php if (strtotime($event['event_date']) > time()): ?>
                 <?php if (isset($_SESSION['user'])): ?>
-                    <h3>Register for this Event</h3>
-                    <form method="POST" action="" class="bg-light p-4 rounded shadow-sm">
-                        <button type="submit" class="btn btn-primary mt-3">Register</button>
-                    </form>
+                    <?php
+                    // Check if the user is registered
+                    $check_registration_query = "SELECT 1 FROM event_registrations WHERE event_id = :event_id AND member_id = :member_id LIMIT 1";
+                    $stmt_check_registration = $db->prepare($check_registration_query);
+                    $stmt_check_registration->bindParam(':event_id', $eventId, PDO::PARAM_INT);
+                    $stmt_check_registration->bindParam(':member_id', $memberId, PDO::PARAM_INT);
+                    $stmt_check_registration->execute();
+                    $isRegistered = $stmt_check_registration->rowCount() > 0;
+                    ?>
+
+                    <?php if ($isRegistered): ?>
+                        <h3>You are registered for this event</h3>
+                        <form method="POST" action="" class="bg-light p-4 rounded shadow-sm">
+                            <input type="hidden" name="action" value="unregister">
+                            <button type="submit" class="btn btn-danger mt-3">Unregister</button>
+                        </form>
+                    <?php else: ?>
+                        <h3>Register for this Event</h3>
+                        <form method="POST" action="" class="bg-light p-4 rounded shadow-sm">
+                            <input type="hidden" name="action" value="register">
+                            <button type="submit" class="btn btn-primary mt-3">Register</button>
+                        </form>
+                    <?php endif; ?>
                 <?php else: ?>
-                    <p class="text-danger mt-3">Please <a href="login.php">log in</a> to register for this event.</p>
+                    <p class="text-danger mt-3">Please <a href="login.php">log in</a> to register or unregister for this event.</p>
                 <?php endif; ?>
             <?php else: ?>
                 <p class="text-warning mt-3">Registration is closed for this event.</p>
             <?php endif; ?>
+
         </div>
 
         <div class="col-md-4">

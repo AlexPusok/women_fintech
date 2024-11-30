@@ -21,6 +21,10 @@ $events_past = $stmt_past->fetchAll(PDO::FETCH_ASSOC);
     <p>Register for workshops, networking sessions, conferences, and more!</p>
 </div>
 
+<?php if ($_SESSION['user']['status'] === 'admin'): ?>
+    <a href="create_event.php" class="btn btn-primary">Create event</a>
+<?php endif; ?>
+
 <!-- Upcoming Events Section -->
 <div class="container mt-4">
     <h2 class="text-center mb-4">Upcoming Events</h2>
