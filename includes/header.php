@@ -62,7 +62,9 @@ $profilePic = $user['pfp'] ?? 'resources/default_profile_pic.jpg';
                     <li class="nav-item">
                         <a class="nav-link" href="events.php">Events</a>
                     </li>
-
+                    <li class="nav-item">
+                        <a class="nav-link" href="mentorship.php">Mentorship</a>
+                    </li>
                 <?php endif; ?>
             </ul>
         </div>
