@@ -13,61 +13,75 @@ $companyDistributionQuery = "SELECT company, COUNT(*) as total_members FROM memb
 $totalMembersCount = $db->query($totalMembersQuery)->fetchColumn();
 $monthlyMembersCount = $db->query($monthlyMembersQuery)->fetchColumn();
 ?>
-<div class="statistics-container" id="stats-cont">
-    <h2 class="statistics-title">Statistics</h2>
-    <ul class="statistics-list">
-        <li class="statistics-item">
-            <strong>Total number of members:</strong> <?php echo htmlspecialchars($totalMembersCount); ?>
-        </li>
-        <li class="statistics-item">
-            <strong>New members in the last month:</strong> <?php echo htmlspecialchars($monthlyMembersCount); ?>
-        </li>
-        <li class="statistics-item">
-            <strong>Profession Distribution:</strong>
-            <table class="statistics-table">
-                <thead>
-                <tr>
-                    <th>Profession</th>
-                    <th>Total Members</th>
-                </tr>
-                </thead>
-                <tbody>
-                <?php
-                $stmt = $db->query($professionDistributionQuery);
-                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                    echo "<tr>";
-                    echo "<td>" . htmlspecialchars($row['profession']) . "</td>";
-                    echo "<td>" . htmlspecialchars($row['total_members']) . "</td>";
-                    echo "</tr>";
-                }
-                ?>
-                </tbody>
-            </table>
-        </li>
-        <li class="statistics-item">
-            <strong>Company Distribution:</strong>
-            <table class="statistics-table">
-                <thead>
-                <tr>
-                    <th>Company</th>
-                    <th>Total Members</th>
-                </tr>
-                </thead>
-                <tbody>
-                <?php
-                $stmt = $db->query($companyDistributionQuery);
-                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                    echo "<tr>";
-                    echo "<td>" . htmlspecialchars($row['company']) . "</td>";
-                    echo "<td>" . htmlspecialchars($row['total_members']) . "</td>";
-                    echo "</tr>";
-                }
-                ?>
-                </tbody>
-            </table>
-        </li>
-    </ul>
+
+<div class="container mt-5">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h2 class="mb-0 text-center">Statistics</h2>
+        </div>
+        <div class="card-body">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <strong>Total number of members:</strong>
+                    <span class="badge bg-success ms-2"><?php echo htmlspecialchars($totalMembersCount); ?></span>
+                </li>
+                <li class="list-group-item">
+                    <strong>New members in the last month:</strong>
+                    <span class="badge bg-info ms-2"><?php echo htmlspecialchars($monthlyMembersCount); ?></span>
+                </li>
+                <li class="list-group-item">
+                    <strong>Profession Distribution:</strong>
+                    <div class="table-responsive mt-3">
+                        <table class="table table-striped table-bordered">
+                            <thead class="table-dark">
+                            <tr>
+                                <th>Profession</th>
+                                <th>Total Members</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php
+                            $stmt = $db->query($professionDistributionQuery);
+                            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                echo "<tr>";
+                                echo "<td>" . htmlspecialchars($row['profession']) . "</td>";
+                                echo "<td>" . htmlspecialchars($row['total_members']) . "</td>";
+                                echo "</tr>";
+                            }
+                            ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <strong>Company Distribution:</strong>
+                    <div class="table-responsive mt-3">
+                        <table class="table table-striped table-bordered">
+                            <thead class="table-dark">
+                            <tr>
+                                <th>Company</th>
+                                <th>Total Members</th>
+                            </tr>
+                            </thead class="table-dark">
+                            <tbody>
+                            <?php
+                            $stmt = $db->query($companyDistributionQuery);
+                            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                echo "<tr>";
+                                echo "<td>" . htmlspecialchars($row['company']) . "</td>";
+                                echo "<td>" . htmlspecialchars($row['total_members']) . "</td>";
+                                echo "</tr>";
+                            }
+                            ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>
+
 <?php
 include_once "includes/footer.php";
 ?>
