@@ -65,16 +65,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['request_id'], $_POST[
     $action = $_POST['action'];
 
     if (in_array($action, ['accept', 'reject'])) {
-        // Update request status
-        $stmt_update = $db->prepare("UPDATE mentorship_requests SET status = :status WHERE id = :request_id");
-        $stmt_update->execute([':status' => $action, ':request_id' => $request_id]);
-        $message = "<div class='alert alert-success'>Request has been $action.</div>";
+        try {
+            // Begin transaction
+            $db->beginTransaction();
+
+            // Update the mentorship_requests table
+            $stmt_update = $db->prepare("UPDATE mentorship_requests SET status = :status WHERE id = :request_id");
+            $stmt_update->execute([':status' => $action, ':request_id' => $request_id]);
+
+            if ($action === 'accept') {
+                // Fetch member_id and mentor_id from the mentorship_requests table
+                $stmt_fetch = $db->prepare("SELECT member_id, mentor_id FROM mentorship_requests WHERE id = :request_id");
+                $stmt_fetch->execute([':request_id' => $request_id]);
+                $request = $stmt_fetch->fetch(PDO::FETCH_ASSOC);
+
+                if ($request) {
+                    // Insert into mentorship_matches table
+                    $stmt_insert = $db->prepare("INSERT INTO mentorship_matches (mentor_id, member_id) VALUES (:mentor_id, :member_id)");
+                    $stmt_insert->execute([
+                        ':mentor_id' => $request['mentor_id'],
+                        ':member_id' => $request['member_id'],
+                    ]);
+                }
+            }
+
+            // Commit transaction
+            $db->commit();
+            $message = "<div class='alert alert-success'>Request has been $action.</div>";
+        } catch (Exception $e) {
+            // Rollback transaction on failure
+            $db->rollBack();
+            error_log("Error handling mentorship request: " . $e->getMessage());
+            $message = "<div class='alert alert-danger'>Failed to process the request. Please try again.</div>";
+        }
 
         // Redirect to avoid resubmission
         header("Location: " . $_SERVER['PHP_SELF']);
         exit;
     }
 }
+
 
 ?>
 
