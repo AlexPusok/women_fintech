@@ -1,5 +1,5 @@
 </div>
-<footer class="footer mt-auto py-3 bg-light" id="fter">
+<footer class="footer mt-auto py-3 bg-dark" id="fter">
     <div class="container text-center">
         <span class="text-muted">© 2024 Women in FinTech </span>
     </div>
@@ -10,5 +10,6 @@
 <script
         src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="js/main.js"></script>
+<script src="js/darkMode.js"></script>
 </body>
 </html>

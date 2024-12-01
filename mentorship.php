@@ -35,11 +35,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['mentor_request_id']))
         // Insert new request
         $stmt_insert = $db->prepare("INSERT INTO mentorship_requests (mentor_id, member_id) VALUES (:mentor_id, :member_id)");
         $stmt_insert->execute([':mentor_id' => $mentor_id, ':member_id' => $member_id]);
+
+        // Send notification to the mentor
+        $message = "You have a new mentorship request!";
+        $link = "mentorship.php";  // You can change the link to a page that lists pending requests
+        $stmt_notify = $db->prepare("INSERT INTO notifications (member_id, message, link) VALUES (:mentor_id, :message, :link)");
+        $stmt_notify->execute([
+            ':mentor_id' => $mentor_id,
+            ':message' => $message,
+            ':link' => $link
+        ]);
+
         $message = "<div class='alert alert-success'>Request sent successfully!</div>";
     } else {
         $message = "<div class='alert alert-warning'>You have already requested this mentor.</div>";
     }
 }
+
 
 // =====================
 // Handle Manual Matching (For Admins)

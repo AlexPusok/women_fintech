@@ -14,7 +14,7 @@ if(isset($_SESSION['user'])){
 
 $profilePic = $user['pfp'] ?? 'resources/default_profile_pic.jpg';
 
-    $notificationsQuery = "SELECT id, message, read_status, created_at FROM notifications WHERE member_id = :member_id AND read_status = 0 ORDER BY created_at DESC LIMIT 10";
+    $notificationsQuery = "SELECT id, message, read_status, created_at, link FROM notifications WHERE member_id = :member_id AND read_status = 0 ORDER BY created_at DESC LIMIT 10";
 
     $notificationsStmt = $db->prepare($notificationsQuery);
     $notificationsStmt->bindParam(':member_id', $userId, PDO::PARAM_INT);
@@ -78,8 +78,16 @@ $profilePic = $user['pfp'] ?? 'resources/default_profile_pic.jpg';
                     <?php foreach ($notifications as $notification): ?>
                         <div class="dropdown-item d-flex justify-content-between align-items-center">
                             <div>
-                                <strong><?php echo htmlspecialchars($notification['message']); ?></strong>
-                                <small class="text-secondary d-block"><?php echo date('d M Y, H:i', strtotime($notification['created_at'])); ?></small>
+                                <?php if (isset($notification['link']) && $notification['link']): ?>
+                                    <!-- Wrap the notification in an anchor tag to make it clickable -->
+                                    <a href="<?php echo htmlspecialchars($notification['link']); ?>" class="text-decoration-none">
+                                        <strong><?php echo htmlspecialchars($notification['message']); ?></strong>
+                                        <small class="text-secondary d-block"><?php echo date('d M Y, H:i', strtotime($notification['created_at'])); ?></small>
+                                    </a>
+                                <?php else: ?>
+                                    <strong><?php echo htmlspecialchars($notification['message']); ?></strong>
+                                    <small class="text-secondary d-block"><?php echo date('d M Y, H:i', strtotime($notification['created_at'])); ?></small>
+                                <?php endif; ?>
                             </div>
                             <form method="POST" action="mark_notification_read.php" style="margin: 0;">
                                 <input type="hidden" name="id" value="<?php echo $notification['id']; ?>">
@@ -93,6 +101,8 @@ $profilePic = $user['pfp'] ?? 'resources/default_profile_pic.jpg';
                 <div class="dropdown-divider"></div>
             </div>
         </div>
+
+
         <?php if (isset($_SESSION['user'])): ?>
         <a href="edit_profile.php" style="padding-right: 3px">
             <img class="pfp" src="<?php echo htmlspecialchars($profilePic); ?>" style="width: 50px; height: 50px; border-radius: 50%; border: 5px solid #087cfc;">

@@ -76,60 +76,6 @@ body {
     border-color: #007bff;
 }
 
-/* Statistics Page Styles */
-.statistics-container {
-    font-family: Arial, sans-serif;
-    margin: 20px auto;
-    padding: 20px;
-    max-width: 800px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
-}
-
-.statistics-title {
-    text-align: center;
-    color: #333;
-    margin-bottom: 20px;
-}
-
-.statistics-list {
-    list-style: none;
-    padding: 0;
-}
-
-.statistics-item {
-    margin-bottom: 20px;
-}
-
-.statistics-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-}
-
-.statistics-table, .statistics-table th, .statistics-table td {
-    border: 1px solid #ddd;
-}
-
-.statistics-table th, .statistics-table td {
-    padding: 8px 12px;
-    text-align: left;
-}
-
-.statistics-table th {
-    background-color: #4CAF50;
-    color: white;
-}
-
-.statistics-table tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
-
-.statistics-table tr:hover {
-    background-color: #e8f5e9;
-}
-
 #filterSection {
     display: none;
 }

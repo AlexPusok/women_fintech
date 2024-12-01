@@ -1,6 +1,6 @@
 <?php
 include_once 'includes/header.php';
-if(!isset($_SESSION['user'])) {
+if (!isset($_SESSION['user'])) {
     header('Location: login.php');
     exit();
 }
@@ -20,7 +20,7 @@ $db = $database->getConnection();
         $sql->execute();
         $fetch = $sql->fetch();
         ?>
-        <h3>Welcome, <?php echo $fetch['first_name']." ". $fetch['last_name']?>! </h3>
+        <h3>Welcome, <?php echo $fetch['first_name'] . " " . $fetch['last_name']; ?>!</h3>
     </div>
     <br/>
     <br/>
@@ -51,6 +51,8 @@ $db = $database->getConnection();
             <?php endwhile; ?>
         </div>
     </div>
+</div>
+
 <?php
 include_once "includes/footer.php";
 ?>

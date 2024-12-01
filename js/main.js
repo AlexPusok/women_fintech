@@ -49,13 +49,18 @@ function toggleFilterSection() {
 }
 
 function darkMode() {
-    if (document.body.className === "bg-light") { /*dark mode settings*/
-        document.body.className = "bg-dark"
-        document.getElementById("fter").className = "footer mt-auto py-3 bg-dark"
-    } else { /*light mode settings*/
-        document.body.className = "bg-light"
-        document.getElementById("fter").className = "footer mt-auto py-3 bg-light"
+    // Check if dark mode is saved in localStorage
+    const isDarkMode = localStorage.getItem('darkMode') === 'true';
+
+    // Apply the theme on page load based on saved preference
+    if (isDarkMode) {
+        document.body.className = "bg-dark";
+        document.getElementById("fter").className = "footer mt-auto py-3 bg-dark";
+    } else {
+        document.body.className = "bg-light";
+        document.getElementById("fter").className = "footer mt-auto py-3 bg-light";
     }
+
 }
 
 function previewProfilePicture(event) {
