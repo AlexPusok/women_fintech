@@ -9,10 +9,15 @@ $mentors = $db->query($query_mentors)->fetchAll(PDO::FETCH_ASSOC);
 $query_members = "SELECT id, first_name, last_name FROM members WHERE status = 'member'";
 $members = $db->query($query_members)->fetchAll(PDO::FETCH_ASSOC);
 
-$query_matches = "SELECT m1.first_name AS mentor_first, m1.last_name AS mentor_last, m2.first_name AS member_first, m2.last_name AS member_last
-                  FROM mentorship_matches mm
-                  JOIN members m1 ON mm.mentor_id = m1.id
-                  JOIN members m2 ON mm.member_id = m2.id";
+$query_matches = "
+    SELECT mm.mentor_id, mm.member_id, 
+           m1.first_name AS mentor_first, m1.last_name AS mentor_last, 
+           m2.first_name AS member_first, m2.last_name AS member_last
+    FROM mentorship_matches mm
+    JOIN members m1 ON mm.mentor_id = m1.id
+    JOIN members m2 ON mm.member_id = m2.id
+";
+
 $matches = $db->query($query_matches)->fetchAll(PDO::FETCH_ASSOC);
 
 // ===========================
@@ -137,12 +142,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['request_id'], $_POST[
     <h2>Current Mentorship Matches</h2>
     <ul class="list-group mb-4">
         <?php foreach ($matches as $match): ?>
-            <li class="list-group-item">
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span>
                 Mentor: <?php echo htmlspecialchars($match['mentor_first'] . " " . $match['mentor_last']); ?>
                 | Member: <?php echo htmlspecialchars($match['member_first'] . " " . $match['member_last']); ?>
+            </span>
+
+                <?php
+                // Check if the logged-in user is related to this match or is an admin
+                if (
+                    $_SESSION['user']['status'] === 'admin' ||
+                    $_SESSION['user']['id'] == $match['mentor_id'] ||
+                    $_SESSION['user']['id'] == $match['member_id']
+                ): ?>
+                    <a href="view_mentorship.php?mentor_id=<?php echo $match['mentor_id']; ?>&member_id=<?php echo $match['member_id']; ?>"
+                       class="btn btn-info btn-sm">
+                        View Mentorship
+                    </a>
+                <?php endif; ?>
             </li>
         <?php endforeach; ?>
     </ul>
+
+
 
     <?php if ($_SESSION['user']['status'] === 'admin'): ?>
         <h2>Manual Mentor-Member Matching</h2>
