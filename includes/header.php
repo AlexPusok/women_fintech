@@ -65,10 +65,22 @@ $profilePic = $user['pfp'] ?? 'resources/default_profile_pic.jpg';
                     <li class="nav-item">
                         <a class="nav-link" href="mentorship.php">Mentorship</a>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="resourceHubDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Resource Hub
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="resourceHubDropdown">
+                            <a class="dropdown-item" href="articles.php">Articole și tutoriale</a>
+                            <a class="dropdown-item" href="materiale_video.php">Materiale video</a>
+                            <a class="dropdown-item" href="podcasts.php">Podcast-uri</a>
+                            <a class="dropdown-item" href="resurse_downloadabile.php">Resurse downloadabile</a>
+                        </div>
+                    </li>
                 <?php endif; ?>
             </ul>
         </div>
         <input onclick="darkMode()" id="darkButton" class="btn btn-primary" type="button" value="Toggle Dark Mode">
+        <?php if (isset($_SESSION['user'])): ?>
         <div class="dropdown">
             <img class="pfp dropdown-toggle" id="notificationBell" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                  src="resources/bell.png" style="width: 50px; height: 50px; border-radius: 50%; border: 5px solid #087cfc; cursor: pointer;">
@@ -101,6 +113,7 @@ $profilePic = $user['pfp'] ?? 'resources/default_profile_pic.jpg';
                 <div class="dropdown-divider"></div>
             </div>
         </div>
+        <?php endif; ?>
 
 
         <?php if (isset($_SESSION['user'])): ?>

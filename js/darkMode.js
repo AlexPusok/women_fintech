@@ -18,6 +18,11 @@ document.addEventListener("DOMContentLoaded", function () {
             document.querySelectorAll('.statistics-table').forEach(el => el.classList.add('table-dark'));
             document.querySelectorAll('.statistics-item').forEach(el => el.classList.add('text-light'));
 
+            // Apply light text color to table data in the "Profession Distribution" and "Company Distribution" sections
+            document.querySelectorAll('.table tbody td').forEach(td => {
+                td.classList.add('text-light');
+            });
+
             // Apply dark mode to all rows in statistics tables
             document.querySelectorAll('.statistics-table tr').forEach(row => {
                 row.classList.add('bg-dark', 'text-light');
@@ -36,19 +41,6 @@ document.addEventListener("DOMContentLoaded", function () {
             // Apply dark mode to list items in mentorship matches
             document.querySelectorAll('.list-group-item').forEach(el => {
                 el.classList.add('bg-dark', 'text-light');
-            });
-
-            // Apply dark mode to mentorship match buttons, excluding specific ones
-            document.querySelectorAll('.btn').forEach(button => {
-                if (button.classList.contains('btn-info') ||
-                    button.classList.contains('btn-primary') ||
-                    button.classList.contains('form-control') ||
-                    button.classList.contains('btn-dark')) {
-                    // Exclude specific button classes
-                    return;
-                } else {
-                    button.classList.add('btn-dark'); // Default button color for other buttons
-                }
             });
         } else {
             document.body.classList.add('bg-light', 'text-dark');
@@ -84,17 +76,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 el.classList.remove('bg-dark', 'text-light');
             });
 
-            // Revert mentorship match buttons, excluding specific ones
-            document.querySelectorAll('.btn').forEach(button => {
-                if (button.classList.contains('btn-info') ||
-                    button.classList.contains('btn-primary') ||
-                    button.classList.contains('form-control') ||
-                    button.classList.contains('btn-dark')) {
-                    // Exclude specific button classes
-                    return;
-                } else {
-                    button.classList.remove('btn-dark');
-                }
+            // Revert text color of table data in "Profession Distribution" and "Company Distribution" sections
+            document.querySelectorAll('.table tbody td').forEach(td => {
+                td.classList.remove('text-light');
             });
         }
     }
@@ -138,17 +122,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 el.classList.remove('bg-dark', 'text-light');
             });
 
-            // Revert mentorship match buttons to default
-            document.querySelectorAll('.btn').forEach(button => {
-                if (button.classList.contains('btn-info') ||
-                    button.classList.contains('btn-primary') ||
-                    button.classList.contains('form-control') ||
-                    button.classList.contains('btn-dark')) {
-                    // Exclude specific button classes
-                    return;
-                } else {
-                    button.classList.remove('btn-dark');
-                }
+            // Revert text color of table data to default in light mode
+            document.querySelectorAll('.table tbody td').forEach(td => {
+                td.classList.remove('text-light');
             });
 
             // Save preference to localStorage
@@ -186,17 +162,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 el.classList.add('bg-dark', 'text-light');
             });
 
-            // Apply dark mode to mentorship match buttons, excluding specific ones
-            document.querySelectorAll('.btn').forEach(button => {
-                if (button.classList.contains('btn-info') ||
-                    button.classList.contains('btn-primary') ||
-                    button.classList.contains('form-control') ||
-                    button.classList.contains('btn-dark')) {
-                    // Exclude specific button classes
-                    return;
-                } else {
-                    button.classList.add('btn-dark'); // Default button color for other buttons
-                }
+            // Apply light text color to table data in the "Profession Distribution" and "Company Distribution" sections
+            document.querySelectorAll('.table tbody td').forEach(td => {
+                td.classList.add('text-light');
             });
 
             // Save preference to localStorage

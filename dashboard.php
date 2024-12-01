@@ -30,7 +30,7 @@ $db = $database->getConnection();
         <?php
         $profession = $fetch['profession'];
         $company = $fetch['company'];
-        $query = "SELECT * FROM members WHERE (profession = '$profession' OR company = '$company') AND id != '$id'";
+        $query = "SELECT * FROM members WHERE (profession = '$profession' OR company = '$company') AND id != '$id' AND last_name != 'admin'";
         $stmt = $db->prepare($query);
         $stmt->execute();
         ?>
