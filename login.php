@@ -21,7 +21,7 @@ include_once 'includes/header.php';
             <div class="form-group">
                 <button class="btn btn-primary form-control" name="login">Log In</button>
             </div>
-            <a href="register.php">Register</a>
+            <a class="text-login" href="register.php">Register</a>
         </form>
     </div>
 </div>

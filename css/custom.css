@@ -1,0 +1,169 @@
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+.footer {
+    margin-top: auto;
+}
+.member-card {
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px black;
+}
+.form-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+.card-body{
+    background-color: #e9ecef;
+}
+.logo{
+    border-radius: 50%;
+}
+#notificationBell:hover{
+    background-color: #7E6AB4;
+}
+#darkButton{
+    float: right;
+    background-color: #4d3e7a;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+#darkButton:hover{
+    background-color: #3C305F;
+}
+.pfp:hover{
+    background-color: #7E6AB4;
+}
+.member-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.member-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.pagination-container {
+    position: relative;
+    margin-top: 20px;
+    margin-bottom: 60px; /* Space above the footer */
+    text-align: justify;
+}
+
+.pagination {
+    display: inline-flex;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.pagination .page-item .page-link {
+    margin: 0 5px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    color: #99c1b9;
+    border: 1px solid #99c1b9;
+    text-decoration: none;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #99c1b9;
+    color: white;
+    border-color: #99c1b9;
+}
+
+#filterSection {
+    display: none;
+}
+
+.bg-primary{
+    background-color: #8E7DBE !important;
+}
+
+.dropdown-item:hover{
+    background-color: #8E7DBE !important;
+}
+.dropdown-item:focus{
+    background-color: #7E6AB4;
+}
+
+.btn-primary {
+    background-color: #99c1b9;
+    border-color : #81B1AB;
+}
+.btn-primary:hover{
+    background-color: #74AA9F;
+    border-color : #81B1AB;
+}
+
+.btn-primary:focus{
+    background-color: #558b80 !important;
+    border-color : #81B1AB !important;
+}
+
+.text-primary {
+    color: #99c1b9 !important;
+}
+.btn-danger {
+    background-color: #d88c9a;
+    border-color: #d58594;
+}
+
+.btn-danger:hover {
+    background-color: #cb6779;
+    border-color: #c6586c;
+}
+
+.jumbotron{
+    background-color: #f1e3d3;
+    border: 2px solid #e2c4a2 !important;
+    border-radius: 8px;
+}
+
+.text-login{
+    color: #5d988c;
+}
+
+.text-login:hover{
+    color: #4e7e75;
+}
+
+.card-body {
+    background-color: #f1e3d3;
+    border: 2px solid #e2c4a2 !important;
+    border-radius: 8px;
+}
+
+.btn-success {
+    background-color: #5c7093;
+    border-color: #5c7099;
+}
+.btn-success:hover {
+    background-color: #526382;
+    border-color: #526389;
+}
+
+.btn-success:focus {
+    background-color: #526382 !important;
+    border-color: #526389   !important;
+}
+
+.badge {
+    background-color: #e7a85f !important;
+    border-color: #e2c4a2;
+}
+
+.text-secondary{
+    color: #558b80 !important;
+}
+
+.text-secondary:hover{
+    color: #467269 !important;
+}

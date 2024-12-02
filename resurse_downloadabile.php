@@ -14,7 +14,9 @@ if (is_dir($directory)) {
 ?>
 <div class="container mt-4">
     <h1 class="mb-4">Resurse Downloadabile</h1>
-
+    <?php if ($_SESSION['user']['status'] === 'admin' || $_SESSION['user']['status'] === 'mentor'): ?>
+        <a href="add_resurse.php" class="btn btn-success mb-4">Adauga Resurse</a>
+    <?php endif;?>
     <?php if (!empty($downloadableFiles)): ?>
         <ul class="list-group mt-4">
             <?php foreach ($downloadableFiles as $file): ?>

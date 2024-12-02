@@ -56,7 +56,9 @@ $articles = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <div class="container mt-4">
     <h1 class="mb-4">Articole si tutoriale</h1>
-
+    <?php if ($_SESSION['user']['status'] === 'admin' || $_SESSION['user']['status'] === 'mentor'): ?>
+        <a href="add_article.php" class="btn btn-success mb-4">Adauga Articol</a>
+    <?php endif;?>
     <form method="GET" class="mb-4">
         <div class="form-group">
             <input type="text" name="search" class="form-control" placeholder="Cauta..." value="<?php echo htmlspecialchars($searchQuery); ?>">
@@ -69,7 +71,7 @@ $articles = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="card mb-3">
                 <div class="card-body">
                     <h4 class="card-title">
-                        <a href="articles.php?article_id=<?php echo urlencode($article['article_id']); ?>">
+                        <a class="text-secondary" href="articles.php?article_id=<?php echo urlencode($article['article_id']); ?>">
                             <?php echo htmlspecialchars($article['title']); ?>
                         </a>
                     </h4>

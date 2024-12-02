@@ -1,7 +1,7 @@
 </div>
-<footer class="footer mt-auto py-3 bg-dark" id="fter">
-    <div class="container text-center">
-        <span class="text-muted">© 2024 Women in FinTech </span>
+<footer class="footer mt-auto py-3 bg-primary">
+    <div class="text-center">
+        <span class="text-light">© 2024 Women in FinTech | Rus David-Sorin | Pusok Alex-Danut</span>
     </div>
 </footer>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>

@@ -10,6 +10,9 @@ $videos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <div class="container mt-4">
     <h1 class="mb-4">Materiale Video</h1>
+    <?php if ($_SESSION['user']['status'] === 'admin' || $_SESSION['user']['status'] === 'mentor'): ?>
+        <a href="add_video.php?tip=material_video" class="btn btn-success mb-4">Adauga Material Video</a>
+    <?php endif;?>
 
     <?php if (!empty($videos)): ?>
         <?php foreach ($videos as $video): ?>
@@ -18,7 +21,7 @@ $videos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <h4 class="card-title">
                         <?php echo htmlspecialchars($video['titlu']); ?>
                     </h4>
-                    <p class="card-text"><?php echo htmlspecialchars($video['desciere']); ?></p>
+                    <p class="card-text"><?php echo htmlspecialchars($video['descriere']); ?></p>
                     <small class="text-muted">Published on: <?php echo htmlspecialchars($video['published_at']); ?></small>
 
                     <?php if (filter_var($video['link'], FILTER_VALIDATE_URL)): ?>  <!-- Player video -->

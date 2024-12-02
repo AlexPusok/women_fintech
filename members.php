@@ -25,7 +25,7 @@ $searchQuery = isset($_POST['searchQuery']) ? $_POST['searchQuery'] : '';
         <input type="hidden" id="sortInput" name="sortMode" value="<?php echo isset($_POST['sortMode']) ? $_POST['sortMode'] : 'sortnume'; ?>">
         <input type="hidden" id="hiddenProfessionInput" name="profession" value="<?php echo htmlspecialchars($selectedProfession); ?>">
         <input type="hidden" id="hiddenSearchQuery" name="searchQuery" value="<?php echo htmlspecialchars($searchQuery); ?>">
-        <button type="submit" id="sortbutton" onclick="schimbaModSortare()"><?php echo isset($_POST['sortMode']) && $_POST['sortMode'] === 'sortcreare' ? 'Sort dupa creare' : 'Sort dupa nume'; ?></button>
+        <button type="submit" id="sortbutton" class="btn btn-primary" onclick="schimbaModSortare()"><?php echo isset($_POST['sortMode']) && $_POST['sortMode'] === 'sortcreare' ? 'Sort dupa creare' : 'Sort dupa nume'; ?></button>
     </form>
     <br/>
     <button class="btn btn-primary" onclick="toggleFilterSection()">Filtreaza dupa profesie</button>

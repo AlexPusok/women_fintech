@@ -1,6 +1,8 @@
 <?php
-require 'config/database.php';
 session_start();
+ob_start();
+require 'config/database.php';
+
 $database = new Database();
 $db = $database->getConnection();
 $notifications = [];
@@ -14,7 +16,7 @@ if(isset($_SESSION['user'])){
 
 $profilePic = $user['pfp'] ?? 'resources/default_profile_pic.jpg';
 
-    $notificationsQuery = "SELECT id, message, read_status, created_at, link FROM notifications WHERE member_id = :member_id AND read_status = 0 ORDER BY created_at DESC LIMIT 10";
+    $notificationsQuery = "SELECT id, message, read_status, created_at, link FROM notifications WHERE member_id = :member_id AND read_status = 0 ORDER BY created_at DESC LIMIT 20";
 
     $notificationsStmt = $db->prepare($notificationsQuery);
     $notificationsStmt->bindParam(':member_id', $userId, PDO::PARAM_INT);
@@ -30,14 +32,15 @@ $profilePic = $user['pfp'] ?? 'resources/default_profile_pic.jpg';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Women in FinTech</title>
+
     <link rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/custom.css">
 </head>
 <body class="bg-light">
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container">
-        <img class="logo" src="logo.png" style="width: 50px; height: auto; border-radius: 50%; border: 5px solid #087cfc;">
+        <img class="logo" src="logo.png" style="width: 50px; height: auto; border-radius: 50%; border: 5px solid #7E6AB4;">
         <a class="navbar-brand" href="<?php echo isset($_SESSION['user']) ? 'dashboard.php' : 'index.php'; ?>">Women in FinTech</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
@@ -65,6 +68,9 @@ $profilePic = $user['pfp'] ?? 'resources/default_profile_pic.jpg';
                     <li class="nav-item">
                         <a class="nav-link" href="mentorship.php">Mentorship</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="jobs.php">Jobs</a>
+                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="resourceHubDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Resource Hub
@@ -79,11 +85,11 @@ $profilePic = $user['pfp'] ?? 'resources/default_profile_pic.jpg';
                 <?php endif; ?>
             </ul>
         </div>
-        <input onclick="darkMode()" id="darkButton" class="btn btn-primary" type="button" value="Toggle Dark Mode">
+    </div>
         <?php if (isset($_SESSION['user'])): ?>
         <div class="dropdown">
             <img class="pfp dropdown-toggle" id="notificationBell" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                 src="resources/bell.png" style="width: 50px; height: 50px; border-radius: 50%; border: 5px solid #087cfc; cursor: pointer;">
+                 src="resources/bell.png" style="width: 50px; height: 50px; border-radius: 50%; border: 5px solid #8E7DBE; cursor: pointer;">
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="notificationBell">
                 <h6 class="dropdown-header">Notifications</h6>
                 <?php if (!empty($notifications)): ?>
@@ -118,7 +124,7 @@ $profilePic = $user['pfp'] ?? 'resources/default_profile_pic.jpg';
 
         <?php if (isset($_SESSION['user'])): ?>
         <a href="edit_profile.php" style="padding-right: 3px">
-            <img class="pfp" src="<?php echo htmlspecialchars($profilePic); ?>" style="width: 50px; height: 50px; border-radius: 50%; border: 5px solid #087cfc;">
+            <img class="pfp" src="<?php echo htmlspecialchars($profilePic); ?>" style="width: 50px; height: 50px; border-radius: 50%; border: 5px solid #7E6AB4;">
         </a>
         <?php endif; ?>
         <div class="ml-auto">
@@ -129,6 +135,9 @@ $profilePic = $user['pfp'] ?? 'resources/default_profile_pic.jpg';
                 <!-- Login Button -->
                 <a href="login.php" class="btn btn-success">Login</a>
             <?php endif; ?>
+    </div>
+    <div class="ml-auto">
+        <input onclick="darkMode()" id="darkButton" class="btn btn-primary" type="button" value="Dark Mode">
     </div>
 </nav>
 <div class="container mt-4">

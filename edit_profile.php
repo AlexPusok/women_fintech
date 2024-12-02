@@ -123,6 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <a href="dashboard.php" class="btn btn-secondary">Cancel</a>
     </form>
 </div>
+<hr>
 
 <script>
     function previewProfilePicture(event) {
