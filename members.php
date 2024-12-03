@@ -116,8 +116,8 @@ $total_pages = ceil($total_members / $members_per_page);
                                 <strong>Profession:</strong> <?php echo htmlspecialchars($row['profession']); ?><br>
                                 <strong>Company:</strong> <?php echo htmlspecialchars($row['company']); ?>
                             </p>
-                            <a href="edit_member.php?id=<?php echo $row['id']; ?>" class="btn btnprimary">Edit</a>
-                            <a href="delete_member.php?id=<?php echo $row['id']; ?>" class="btn btndanger" onclick="return confirm('Are you sure?')">Delete</a>
+                            <a class="text-primary" href="edit_member.php?id=<?php echo $row['id']; ?>" class="btn btnprimary">Edit</a>
+                            <a class="text-primary" href="delete_member.php?id=<?php echo $row['id']; ?>" class="btn btndanger" onclick="return confirm('Are you sure?')">Delete</a>
                         </div>
                     </div>
                 </div>
